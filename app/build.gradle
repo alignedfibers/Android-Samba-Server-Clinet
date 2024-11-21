@@ -1,26 +1,58 @@
-apply plugin: 'com.android.application'
+description = 'Android SAMBA Server'
+//apply plugin: 'com.android.application'
+apply from: "$rootDir/common.gradle"
+useAndroidAppPluginConfig(project)
+dependencies{
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    //api 'com.android.support:support-compat:28.0.0'
+    //api 'com.android.support:appcompat-v7:28.0.0'
+    api fileTree(dir: 'libs', include: ['*,jar'])
+    api files('libs/nanohttpd-webserver-android-release.aar')
+    api files('libs/jcifs-1.3.18.jar')
+    api files('libs/alfresco-jlan.jar')
+    api files('libs/cryptix-jce-provider.jar')
 
+}
 android {
+lintOptions {
+    abortOnError false
+}
     namespace "com.samba"
-    compileSdkVersion 23
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 33
+    //buildToolsVersion "24.0.2"
     defaultConfig {
-        applicationId "com.samba"
-        minSdkVersion 22
-        targetSdkVersion 24
+        applicationId "org.samba"
+        minSdkVersion 28
+        targetSdkVersion 33
+        //maxSdkVersion 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        namespace "com.samba"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+        //coreLibraryDesugaringEnabled true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // Build outputs
+    /*publishing {
+        publications {
+            aar(MavenPublication) {
+                from components.release
+            }
+        }
+    }*/
 }
 
-dependencies {
+/*dependencies {
     //compile fileTree(include: ['*.jar'], dir: 'libs')
     api fileTree(dir: 'libs', include: ['*,jar'])
     api files('libs/alfresco-jlan.jar')
@@ -30,4 +62,4 @@ dependencies {
     })
     api 'com.android.support:appcompat-v7:24.2.1'
     testImplementation 'junit:junit:4.12'
-}
+}*/
