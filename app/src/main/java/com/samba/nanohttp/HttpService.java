@@ -1,6 +1,10 @@
 package com.samba.nanohttp;
 
+import android.os.Build;
 import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.NotificationChannel;
+import androidx.core.app.NotificationCompat;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -17,6 +21,7 @@ import java.io.IOException;
 
 /**
  * Created by shane on 9/30/16.
+ * Modified by shawn on 11/20/2025
  */
 
 public class HttpService extends Service {
@@ -28,7 +33,7 @@ public class HttpService extends Service {
         WifiManager.WifiLock wifiLock;
 
         private MyHTTPD httpd;
-
+        private NotificationManager mNM;
         @Override
         public IBinder onBind(Intent intent) {
             return null;
@@ -58,9 +63,22 @@ public class HttpService extends Service {
             // Become a foreground service:
             // http://developer.android.com/guide/components/services.html#Foreground
             // https://android.googlesource.com/platform/development/+/master/samples/ApiDemos/src/com/example/android/apis/app/ForegroundService.java
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, com.samba.Samba.class), 0);
+            PendingIntent contentIntent =
+                    PendingIntent.getActivity(
+                            this, 0,
+                            new Intent(this, com.samba.Samba.class),
+                            PendingIntent.FLAG_IMMUTABLE);
             // Set the info for the views that show in the notification panel.
-            Notification notification = new Notification.Builder(this)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationChannel channel = new android.app.NotificationChannel(
+                        "httpd_channel",
+                        "Httpd Server",
+                        NotificationManager.IMPORTANCE_LOW
+                );
+                NotificationManager manager = getSystemService(NotificationManager.class);
+                manager.createNotificationChannel(channel);
+            }
+            Notification notification = new NotificationCompat.Builder(this, "httpd_channel")
                     .setSmallIcon(R.drawable.ic_sync_black_24dp)  // the status icon
                     .setTicker("My service")  // the status text
                     .setWhen(System.currentTimeMillis())  // the time stamp

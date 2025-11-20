@@ -9,7 +9,7 @@
     </servers>
 
     <SMB>
-        <host name="Shane" domain="WORKGROUP">
+        <host name="Shawn" domain="WORKGROUP">
             <broadcast>255.255.255.0</broadcast>
             <smbdialects>LanMan,NT</smbdialects>
             <comment>Alfresco JLAN Server</comment>

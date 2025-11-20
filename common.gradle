@@ -6,19 +6,19 @@ ext.usejavapluginconfig = { project ->
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    project.repositories{
+    /*project.repositories{
         google()
         mavenCentral()
         jcenter()
-    }
+    }*/
     project.allprojects{
         apply plugin: 'java'
         apply plugin: 'idea'
-        repositories{
+        /*repositories{
             google()
             mavenCentral()
             jcenter()
-        }
+        }*/
         dependencies {
             testImplementation group: 'junit', name: 'junit', version: '4.12'
         }
@@ -39,24 +39,28 @@ ext.usejavapluginconfig = { project ->
 
 
 ext.useAndroidAppPluginConfig = { project ->
-    project.repositories{
+    /*project.repositories{
         google()
         mavenCentral()
         jcenter()
-    }
+    }*/
     project.allprojects{
         apply plugin: 'com.android.application'
         //apply plugin: 'com.android.library'
-        //apply plugin: 'org.jetbrains.kotlin.android'
+        apply plugin: 'org.jetbrains.kotlin.android'
 
-        repositories{
-        }
+        /*repositories{
+        }*/
         dependencies {
             testImplementation 'junit:junit:4.13.2'
-            androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+            androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0', {
+                exclude group: 'androidx.annotation', module: 'annotation'
                 exclude group: 'com.android.support', module: 'support-annotations'
             })
-            //api 'com.android.support:support-compat:28.0.0'
+            // androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+            //     exclude group: 'com.android.support', module: 'support-annotations'
+            // })
+            api 'com.android.support:support-compat:28.0.0'
             //api 'com.android.support:appcompat-v7:28.0.0'
             //androidTestImplementation 'androidx.test.ext:junit:1.1.3'
             //androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

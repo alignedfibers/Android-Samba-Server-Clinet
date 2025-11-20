@@ -105,6 +105,7 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
         Button sambaclient_button = (Button) findViewById(R.id.button);
         sambaclient_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
+                Log.d("TAG", "Debug message in sambaclient button onclick");
                 setContentView(R.layout.filelist);
                 new LongOperation().execute("");
                 onStartHttpServer();
@@ -114,6 +115,7 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
         sambaseerver_button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
                 Log.e("Samba Server", "Starting Service");
+                Log.d("TAG", "Debug message in samberserver button onclick");
                 onStartSambaServer();
             }
         });
@@ -159,10 +161,12 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
     }
 
     public void onStartHttpServer() {
+        Log.d("TAG", "Debug message in onStartHttpServer");
         Intent intent = new Intent(this, HttpService.class);
         startService(intent);
     }
     public void onStartSambaServer() {
+        Log.d("TAG", "Debug message in onStartSambaServer");
         Intent intent = new Intent(this, AndroidSMBService.class);
         mIsRunning=true;
         startService(intent);

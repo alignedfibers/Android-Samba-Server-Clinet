@@ -1,4 +1,18 @@
-apply plugin: 'com.android.application'
+description = 'Android SAMBA Server'
+//apply plugin: 'com.android.application'
+apply from: "$rootDir/common.gradle"
+useAndroidAppPluginConfig(project)
+dependencies {
+    //compile fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(dir: 'libs', include: ['*,jar'])
+    api files('libs/alfresco-jlan.jar')
+    api files('libs/cryptix-jce-provider.jar')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //api 'com.android.support:appcompat-v7:24.2.1'
+    //testImplementation 'junit:junit:4.12'
+}
 
 android {
     namespace "com.samba"
@@ -20,14 +34,4 @@ android {
     }
 }
 
-dependencies {
-    //compile fileTree(include: ['*.jar'], dir: 'libs')
-    api fileTree(dir: 'libs', include: ['*,jar'])
-    api files('libs/alfresco-jlan.jar')
-    api files('libs/cryptix-jce-provider.jar')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    api 'com.android.support:appcompat-v7:24.2.1'
-    testImplementation 'junit:junit:4.12'
-}
+

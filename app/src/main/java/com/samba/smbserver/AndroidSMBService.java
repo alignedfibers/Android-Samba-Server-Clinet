@@ -30,6 +30,7 @@ import org.alfresco.jlan.smb.server.CIFSConfigSection;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.NotificationChannel;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -89,7 +90,7 @@ public class AndroidSMBService extends Service implements AndroidSMBConstants {
      */
     @Override
     public void onCreate() {
-        Log.e("Samba Server", "Android SMB Service Created");
+    	Log.e("Samba Server", "Android SMB Service Created");
     	// Display a notification about us starting.  We put an icon in the status bar.
     	this.logHandler = DebugHandler.getInstance();
     }
