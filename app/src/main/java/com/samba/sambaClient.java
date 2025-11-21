@@ -2,6 +2,10 @@ package com.samba;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import jcifs.CIFSContext;
+import jcifs.context.SingletonContext;
+import jcifs.smb.NtlmPasswordAuthenticator;   // <- note: *Authenticator*, not Authentication
+import jcifs.smb.SmbFile;
 
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
@@ -19,14 +23,19 @@ public class sambaClient {
         protected String doInBackground(String... params) {
             SmbFile[] listFiles = {};
             try {
-                String yourPeerPassword = "1234";
-                String yourPeerName = "admin";
-                String yourPeerIP = "10.1.1.91";
-                String path = "smb://" + yourPeerIP;
-                NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
-                        null, yourPeerName, yourPeerPassword);
+                String yourPeerPassword = "normal";
+                String yourPeerName = "normal";
+                String yourPeerIP = "10.0.2.15";
+                String path = "smb://" + yourPeerIP  + ":1139/";
+                CIFSContext base = SingletonContext.getInstance();
+                CIFSContext authCtx = base.withCredentials(
+                        new NtlmPasswordAuthenticator("", yourPeerName, yourPeerPassword)
+                );
+               /* NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
+                        null, yourPeerName, yourPeerPassword);*/
                 Log.e("Connected", "Yes");
-                SmbFile smbFile = new SmbFile(path, auth);
+               // SmbFile smbFile = new SmbFile(path, auth);
+                SmbFile smbFile = new SmbFile(path, authCtx);
                 /** Printing Information about SMB file which belong to your Peer **/
                 String nameoffile = smbFile.getName();
                 String pathoffile = smbFile.getPath();

@@ -48,7 +48,10 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
+import jcifs.CIFSContext;
+import jcifs.context.SingletonContext;
 import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.NtlmPasswordAuthenticator;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
@@ -57,10 +60,10 @@ import jcifs.smb.SmbFileInputStream;
 public class Samba extends AppCompatActivity implements AndroidSMBConstants{
 
     SmbFile[] fileaerray;
-    String yourPeerPassword = "1234";
-    String yourPeerName = "admin";
-    String yourPeerIP = "10.1.1.91";
-    String smbURL = "smb://" + yourPeerIP;
+    String yourPeerPassword = "normal";
+    String yourPeerName = "normal";
+    String yourPeerIP = "10.0.2.15";
+    String smbURL = "smb://" + yourPeerIP + ":1139";
     String smbPath = "";
 
     private AndroidSMBService mService;
@@ -125,10 +128,26 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
         protected String doInBackground(String... params) {
             SmbFile[] listFiles = {};
             try {
-                NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
+
+                /****
+                 * String yourPeerPassword = "normal";
+                 * String yourPeerName = "normal";
+                 * String yourPeerIP = "10.0.2.15";
+                 * String path = "smb://" + yourPeerIP  + ":1139/";
+                 ************/
+                CIFSContext base = SingletonContext.getInstance();
+                CIFSContext authCtx = base.withCredentials(
+                        new NtlmPasswordAuthenticator("", yourPeerName, yourPeerPassword)
+                );
+                Log.e("Connected", "Yes");
+                // SmbFile smbFile = new SmbFile(path, auth);
+                SmbFile smbFile = new SmbFile(smbURL, authCtx);
+
+                /*NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
                         null, yourPeerName, yourPeerPassword);
                 Log.e("Connected", "Yes");
-                SmbFile smbFile = new SmbFile(smbURL, auth);
+                SmbFile smbFile = new SmbFile(smbURL, auth);*/
+
                 /** Printing Information about SMB file which belong to your Peer **/
                 String nameoffile = smbFile.getName();
                 String pathoffile = smbFile.getPath();
@@ -365,9 +384,16 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
         });
         relativeLayout.addView(button_up);
         try {
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
+            CIFSContext base = SingletonContext.getInstance();
+            CIFSContext authCtx = base.withCredentials(
+                    new NtlmPasswordAuthenticator("", yourPeerName, yourPeerPassword)
+            );
+            Log.e("Connected", "Yes");
+            SmbFile sFile = new SmbFile(smbURL, authCtx);
+
+            /*NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
                     null, yourPeerName, yourPeerPassword);
-            SmbFile sFile = new SmbFile(path, auth);
+            SmbFile sFile = new SmbFile(path, auth);*/
             try {
 
                 reader = new BufferedInputStream(new SmbFileInputStream(sFile));
