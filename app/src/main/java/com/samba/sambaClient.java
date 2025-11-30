@@ -6,6 +6,8 @@ import jcifs.CIFSContext;
 import jcifs.context.SingletonContext;
 import jcifs.smb.NtlmPasswordAuthenticator;   // <- note: *Authenticator*, not Authentication
 import jcifs.smb.SmbFile;
+import jcifs.Configuration;
+import java.lang.reflect.Field;
 
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
@@ -17,6 +19,40 @@ import jcifs.smb.SmbFile;
 public class sambaClient {
     public void run(){
         new LongOperation().execute("");
+    }
+
+    public static void dumpObject(String tag, Object obj) {
+        if (obj == null) {
+            Log.e(tag, "null");
+            return;
+        }
+
+        Class<?> clazz = obj.getClass();
+        Log.e(tag, "Class = " + clazz.getName());
+
+        // Print inheritance chain
+        Class<?> parent = clazz.getSuperclass();
+        while (parent != null) {
+            Log.e(tag, "Superclass = " + parent.getName());
+            parent = parent.getSuperclass();
+        }
+
+        // Print implemented interfaces
+        for (Class<?> i : clazz.getInterfaces()) {
+            Log.e(tag, "Interface = " + i.getName());
+        }
+
+        // Print fields + values
+        for (Field f : clazz.getDeclaredFields()) {
+            try {
+                f.setAccessible(true);
+                Object value = f.get(obj);
+                Log.e(tag, "Field: " + f.getName() + " = " + value);
+            }
+            catch (Exception e) {
+                Log.e(tag, "Field: " + f.getName() + " = <inaccessible>");
+            }
+        }
     }
 
     private class LongOperation extends AsyncTask<String, Void, String> {
@@ -31,6 +67,8 @@ public class sambaClient {
                 CIFSContext authCtx = base.withCredentials(
                         new NtlmPasswordAuthenticator("", yourPeerName, yourPeerPassword)
                 );
+                Configuration cfg = base.getConfig();
+
                /* NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
                         null, yourPeerName, yourPeerPassword);*/
                 Log.e("Connected", "Yes");
