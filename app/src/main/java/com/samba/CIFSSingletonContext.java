@@ -10,6 +10,7 @@ import jcifs.context.BaseContext;
 import jcifs.CIFSContext;
 import jcifs.CIFSException;
 import jcifs.config.PropertyConfiguration;
+import com.samba.CIFSSingletonContext;
 
 import jcifs.context.SingletonContext;
 
@@ -17,12 +18,13 @@ import jcifs.context.SingletonContext;
  * Global singleton context
  *
  * @author mbechler
- *
+ * Borrowed and modified by Shawn Stark
+ * Used outsid of JCIFS to set up app specific implementation.
  */
 public class CIFSSingletonContext extends BaseContext implements CIFSContext {
 
-    private static final Logger log = LoggerFactory.getLogger(jcifs.context.SingletonContext.class);
-    private static jcifs.context.SingletonContext INSTANCE;
+    private static final Logger log = LoggerFactory.getLogger(com.samba.CIFSSingletonContext.class);
+    private static com.samba.CIFSSingletonContext INSTANCE;
 
 
     /**
@@ -55,8 +57,9 @@ public class CIFSSingletonContext extends BaseContext implements CIFSContext {
         if ( props != null ) {
             p.putAll(props);
         }
-        INSTANCE = new jcifs.context.SingletonContext(p);
+        INSTANCE = new com.samba.CIFSSingletonContext(p);
     }
+
 
 
     /**
@@ -67,7 +70,7 @@ public class CIFSSingletonContext extends BaseContext implements CIFSContext {
      *
      * @return a global context, initialized on first call
      */
-    public static synchronized final jcifs.context.SingletonContext getInstance () {
+    public static synchronized final com.samba.CIFSSingletonContext getInstance () {
         if ( INSTANCE == null ) {
             try {
                 log.debug("Initializing singleton context");
@@ -101,7 +104,7 @@ public class CIFSSingletonContext extends BaseContext implements CIFSContext {
      *
      */
     public static void registerSmbURLHandler () {
-        jcifs.context.SingletonContext.getInstance();
+        com.samba.CIFSSingletonContext.getInstance();
         String pkgs = System.getProperty("java.protocol.handler.pkgs");
         if ( pkgs == null ) {
             System.setProperty("java.protocol.handler.pkgs", "jcifs");
