@@ -21,8 +21,9 @@
             -->
 
             <!-- To run the server using a non-root account on linux, Mac OS X, Solaris -->
-            <netBIOSSMB sessionPort="1139" namePort="1137" datagramPort="1138" platforms="linux,macosx,windows,solaris"/>
-            <tcpipSMB port="1445" platforms="linux"/>
+            <netBIOSSMB sessionPort="2139" namePort="1137" datagramPort="1138" platforms="linux,macosx,windows,solaris"/>
+            <!-- <tcpipSMB port="1445" platforms="linux"/> -->
+            <tcpipSMB port="1139" platforms="linux"/>
 
             <hostAnnounce interval="5"/>
         </host>

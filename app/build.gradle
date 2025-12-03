@@ -10,7 +10,12 @@ dependencies{
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10"
     implementation 'org.slf4j:slf4j-api:1.7.30'
     implementation 'org.slf4j:slf4j-simple:1.7.30'
-    //implementation 'com.github.tony19:slf4j-android:1.7.30-0'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.77'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.77'
+    implementation('net.java.dev.jets3t:jets3t:0.9.4') {
+        exclude group: 'org.bouncycastle'
+    }
+
     api 'com.android.support:support-compat:28.0.0'
     api 'com.android.support:appcompat-v7:28.0.0'
     api fileTree(dir: 'libs', include: ['*,jar'])
@@ -22,13 +27,22 @@ dependencies{
 
 }
 android {
-lintOptions {
-    abortOnError false
-    //checkReleaseBuilds true // Run Lint on release builds
-    //disable 'UnusedResources', 'HardcodedText' // Disable specific rules
-    //textReport true // Generate a text report
-    //textOutput 'stdout' // Output the report to the console
-}
+    lintOptions {
+        abortOnError false
+        //checkReleaseBuilds true // Run Lint on release builds
+        //disable 'UnusedResources', 'HardcodedText' // Disable specific rules
+        //textReport true // Generate a text report
+        //textOutput 'stdout' // Output the report to the console
+    }
+    packagingOptions {
+        //exclude 'META-INF/DEPENDENCIES'
+        //exclude 'META-INF/LICENSE'
+        //exclude 'META-INF/LICENSE.txt'
+        //exclude 'META-INF/NOTICE'
+        //exclude 'META-INF/NOTICE.txt'
+        //exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/*'
+    }
     namespace "com.samba"
     compileSdkVersion 33
     //buildToolsVersion "24.0.2"
