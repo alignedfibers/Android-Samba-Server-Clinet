@@ -21,8 +21,9 @@ dependencies{
     api fileTree(dir: 'libs', include: ['*,jar'])
     api files('libs/nanohttpd-webserver-android-release.aar')
     //api files('libs/jcifs-1.3.18.jar')
-    api files('libs/jcifs-ng-2.1.11.jar')
-    api files('libs/alfresco-jlan.jar')
+    //api files('libs/jcifs-ng-2.1.11.jar')
+    api files('libs/jcifs-fileserver.jar') //this is client
+    api files('libs/alfresco-jlan.jar') //this is server
     api files('libs/cryptix-jce-provider.jar')
 
 }

@@ -62,14 +62,14 @@ public class sambaClient {
                 String yourPeerPassword = "normal";
                 String yourPeerName = "normal";
                 String yourPeerIP = "10.0.2.15";
-                String path = "smb://" + yourPeerIP  + ":1139/";
-                //String path = "smb://" + yourPeerIP  + ":1445/";
+                //String path = "smb://" + yourPeerIP  + ":1139/";
+                String path = "smb://" + yourPeerIP  + ":1445/";
                 CIFSContext base = SingletonContext.getInstance();
                 CIFSContext authCtx = base.withCredentials(
                         new NtlmPasswordAuthenticator("", yourPeerName, yourPeerPassword)
                 );
                 Configuration cfg = base.getConfig();
-
+                Log.d("SMB_DEBUG",path);
                /* NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
                         null, yourPeerName, yourPeerPassword);*/
                 Log.e("Connected", "Yes");

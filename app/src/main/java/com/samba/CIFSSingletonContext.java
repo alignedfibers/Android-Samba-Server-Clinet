@@ -18,8 +18,8 @@ import jcifs.context.SingletonContext;
  * Global singleton context
  *
  * @author mbechler
- * Borrowed and modified by Shawn Stark
- * Used outsid of JCIFS to set up app specific implementation.
+ * Borrowed and modified by sstark
+ * Used outside of JCIFS to set up app specific implementation.
  */
 public class CIFSSingletonContext extends BaseContext implements CIFSContext {
 

@@ -63,8 +63,8 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
     String yourPeerPassword = "normal";
     String yourPeerName = "normal";
     String yourPeerIP = "10.0.2.15";
-    String smbURL = "smb://" + yourPeerIP + ":1139";
-    //String smbURL = "smb://" + yourPeerIP + ":1445";
+    //String smbURL = "smb://" + yourPeerIP + ":1139";
+    String smbURL = "smb://" + yourPeerIP + ":1445";
     String smbPath = "";
 
     private AndroidSMBService mService;
