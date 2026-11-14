@@ -55,7 +55,9 @@ import jcifs.smb.NtlmPasswordAuthenticator;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
-
+import java.util.Properties;
+import jcifs.config.PropertyConfiguration;
+import jcifs.context.BaseContext;
 
 public class Samba extends AppCompatActivity implements AndroidSMBConstants{
 
@@ -129,14 +131,18 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
         protected String doInBackground(String... params) {
             SmbFile[] listFiles = {};
             try {
-
+                Log.e("SMB_CLIENT", "Trying the connection process");
                 /****
                  * String yourPeerPassword = "normal";
                  * String yourPeerName = "normal";
                  * String yourPeerIP = "10.0.2.15";
                  * String path = "smb://" + yourPeerIP  + ":1139/";
                  ************/
-                CIFSContext base = SingletonContext.getInstance();
+                Properties props = new Properties();
+                props.setProperty("jcifs.smb.useRawNTLM", "true");
+
+                CIFSContext base = new BaseContext(new PropertyConfiguration(props));
+                //CIFSContext base = SingletonContext.getInstance();
                 CIFSContext authCtx = base.withCredentials(
                         new NtlmPasswordAuthenticator("", yourPeerName, yourPeerPassword)
                 );
@@ -411,8 +417,11 @@ public class Samba extends AppCompatActivity implements AndroidSMBConstants{
     }
 
     private void showFIleList(String nowPath){
-
+        Log.d("SMB_CLIENT","Entered show file list()");
+        Log.d("SMB_CLIENT", "Files returned: " + fileaerray.length);
+        Log.e("SMB_CLIENT", "Something went wrong");
         if(fileaerray.length > 0) {
+
             smbPath = nowPath;
             runOnUiThread(new Runnable() {
                 @Override
